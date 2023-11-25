@@ -26,9 +26,12 @@ class UserCruds:
         return [user_schemas.UserReturn(**user) for user in users_to_dict]
 
     async def create_user(self, user: user_schemas.UserCreate) -> HTTPException:
-        db_user = users.insert().values(email=user.email, password=user.password, name=user.name)
-        await self.db.execute(db_user)
-        return HTTPException(status_code=200, detail="Success")
+        check = await self.get_user_by_email(user.email)
+        if not check:
+            db_user = users.insert().values(email=user.email, password=user.password, name=user.name)
+            await self.db.execute(db_user)
+            return HTTPException(status_code=200, detail="Success")
+        raise HTTPException(status_code=400, detail="User already exist")
 
     async def update_user(self, new_user: user_schemas.UserCreate) -> HTTPException:
         check = await self.get_user_by_email(new_user.email)
