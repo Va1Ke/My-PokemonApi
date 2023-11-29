@@ -8,8 +8,8 @@ router = APIRouter()
 
 
 @router.get("/user-pokemons/", tags=["UserPokemons"])
-async def get_all_pokemons(email: str, page: int = Query(1, ge=1),
-                           per_page: int = Query(10, ge=1, le=25)):
+async def get_all_user_pokemons(email: str, page: int = Query(1, ge=1),
+                                per_page: int = Query(10, ge=1, le=25)):
     if page == 0 or per_page == 0:
         offset = 0
         per_page = 0
