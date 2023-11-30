@@ -17,21 +17,21 @@ class UserCruds:
 
     async def get_user_by_id(self, id: int) -> user_schemas.UserReturn:
         user = await self.db.fetch_one(users.select().where(users.c.user_id == id))
-        if user == None:
+        if user is None:
             return None
         return user_schemas.UserReturn(user_id=user.user_id, email=user.email,
                                        name=user.name)
 
     async def get_user_by_email_with_pass(self, email: str) -> user_schemas.UserReturnPassword:
         user = await self.db.fetch_one(users.select().where(users.c.email == email))
-        if user == None:
+        if user is None:
             return None
         return user_schemas.UserReturnPassword(user_id=user.user_id, email=user.email, password=user.password,
                                                name=user.name)
 
     async def get_user_by_email(self, email: str) -> user_schemas.UserReturn:
         user = await self.db.fetch_one(users.select().where(users.c.email == email))
-        if user == None:
+        if user is None:
             return None
         return user_schemas.UserReturn(user_id=user.user_id, email=user.email, name=user.name)
 
